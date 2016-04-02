@@ -24,6 +24,9 @@ public class Square {
   public Graphics draw(Graphics g) {
     g.setColor(color);
     g.fillRect(WIDTH + col*WIDTH, WIDTH + row*WIDTH, WIDTH, WIDTH);     
+    if (piece != null) {
+      g.drawImage(piece.getSprite(), WIDTH + col*WIDTH, WIDTH + row*WIDTH, null);
+    }
     return g; 
   }
   
@@ -33,9 +36,9 @@ public class Square {
   
   private void determineColor() {
     if ((row % 2 == 0 && col % 2 == 0) || (row % 2 == 1 && col % 2 == 1)) {
-      color = color.BLACK;  
+      color = Color.GRAY;  
     } else {
-      color = color.WHITE;
+      color = Color.WHITE;
     }    
   }
   
