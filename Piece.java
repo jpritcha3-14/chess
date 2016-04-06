@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.image.*;
+import java.awt.Graphics;
 
 public abstract class Piece {
   private String color;
@@ -14,4 +15,10 @@ public abstract class Piece {
     return sprite;
   }  
     
+  public Graphics draw(Graphics g, int x, int y) {
+    g.drawImage(sprite, x, y, null); 
+    return g;
+  }
+  
+  
 }

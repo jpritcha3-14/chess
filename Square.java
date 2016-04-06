@@ -1,15 +1,18 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
-public class Square {
+public class Square extends Rectangle {
 
   public static final int WIDTH = 75;
   private Color color;
   private Piece piece;
-  int row;
-  int col;
+  private int row;
+  private int col;
 
   public Square(int row, int col) {
+    super(WIDTH, WIDTH);
+    setLocation(WIDTH + col*WIDTH, WIDTH + row*WIDTH);
     this.row = row;
     this.col = col;
     determineColor();
@@ -23,7 +26,7 @@ public class Square {
   
   public Graphics draw(Graphics g) {
     g.setColor(color);
-    g.fillRect(WIDTH + col*WIDTH, WIDTH + row*WIDTH, WIDTH, WIDTH);     
+    g.fillRect(x, y, WIDTH, WIDTH);     
     if (piece != null) {
       g.drawImage(piece.getSprite(), WIDTH + col*WIDTH, WIDTH + row*WIDTH, null);
     }
@@ -34,9 +37,31 @@ public class Square {
     piece = p;
   }
   
+  public Piece getPiece() {
+    return piece; 
+  }
+  
+  public Piece takePiece() {
+    Piece returnedPiece = piece;
+    piece = null;
+    return returnedPiece; 
+  }
+  
+  public int getCol() {
+    return col; 
+  }
+
+  public int getRow() {
+    return row; 
+  }
+
+  public void setColor(Color c) {
+    color = c;
+  }
+  
   private void determineColor() {
     if ((row % 2 == 0 && col % 2 == 0) || (row % 2 == 1 && col % 2 == 1)) {
-      color = Color.GRAY;  
+      color = Color.RED;  
     } else {
       color = Color.WHITE;
     }    
