@@ -5,8 +5,8 @@ import javax.imageio.ImageIO;
 
 public class Queen extends Piece {
 
-  public Queen(String color) {
-    super(color, loadSprite(color));
+  public Queen(String color, int col, int row) {
+    super(color, loadSprite(color), col, row);
   }
 
 private static BufferedImage loadSprite(String c) {

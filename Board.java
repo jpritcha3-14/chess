@@ -1,3 +1,4 @@
+import java.util.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -36,8 +37,8 @@ public class Board extends JPanel {
       for (int row = 0; row < squares[0].length; row++) {
         p = null;
         color = (row < 2) ? "white" : "black";
-        if (row == 0 || row == 7) { p = determinePiece(col, color); }
-        if (row == 1 || row == 6) { p = new Pawn(color); }
+        if (row == 0 || row == 7) { p = determinePiece(color, col, row); }
+        if (row == 1 || row == 6) { p = new Pawn(color, col, row); }
         squares[col][row].setPiece(p); 
       }
     }
@@ -79,23 +80,44 @@ public class Board extends JPanel {
     return activePiece;
   }
 
-  private Piece determinePiece(int col, String color) {
+  private Piece determinePiece(String color, int col, int row) {
     if (col == 0 || col == 7) {
-      return new Rook(color); 
+      return new Rook(color, col, row); 
     } else if (col == 1 || col == 6) {
-      return new Knight(color);
+      return new Knight(color, col, row);
     } else if (col == 2 || col == 5) {
-      return new Bishop(color);
+      return new Bishop(color, col, row);
     } else if (col == 4) {
-      return new Queen(color);
+      return new Queen(color, col, row);
     } else {
-      return new King(color);
+      return new King(color, col, row);
     }   
   } 
+
+  public void getLegalMoves() {
+    ArrayList<Move[]> possibleMoves = activePiece.getLegalMoves();
+    int deltaCol;
+    int deltaRow;
+    for (int i = 0; i < possibleMoves.size(); i++) {
+      for( int j = 0; j < possibleMoves.get(i).length; j++) {
+        deltaCol = possibleMoves.get(i)[j].getCol();
+        deltaRow = possibleMoves.get(i)[j].getRow();
+        squares[activePiece.getCol() + deltaCol][activePiece.getRow() + deltaRow].changeColor(Color.GREEN); 
+      }
+    }
+  }  
 
   public void drawBoard() {
     frame.setVisible(true);
     repaint();
+  }
+
+  public void resetColor() {
+    for (int col = 0; col < squares.length; col++) {
+      for (int row = 0; row < squares[0].length; row++) {
+        squares[col][row].determineColor(); 
+      }
+    }
   }
 
   @Override

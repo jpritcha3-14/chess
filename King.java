@@ -5,8 +5,8 @@ import javax.imageio.ImageIO;
 
 public class King extends Piece {
 
-  public King(String color) {
-    super(color, loadSprite(color));
+  public King(String color, int col, int row) {
+    super(color, loadSprite(color), col, row);
   }
 
 private static BufferedImage loadSprite(String c) {

@@ -5,8 +5,8 @@ import javax.imageio.ImageIO;
 
 public class Bishop extends Piece {
 
-  public Bishop(String color) {
-    super(color, loadSprite(color));
+  public Bishop(String color, int col, int row) {
+    super(color, loadSprite(color), col, row);
   }
 
 private static BufferedImage loadSprite(String c) {

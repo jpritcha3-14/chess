@@ -34,7 +34,4 @@ public class Player {
   private void capture(Piece p) {
 
   }  
-     
-
-   
 }

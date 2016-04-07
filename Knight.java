@@ -5,8 +5,8 @@ import javax.imageio.ImageIO;
 
 public class Knight extends Piece {
 
-  public Knight(String color) {
-    super(color, loadSprite(color));
+  public Knight(String color, int col, int row) {
+    super(color, loadSprite(color), col, row);
   }
 
 private static BufferedImage loadSprite(String c) {

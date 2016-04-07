@@ -35,6 +35,10 @@ public class Square extends Rectangle {
   
   public void setPiece(Piece p) {
     piece = p;
+    if (piece != null) {
+      piece.setRow(row);
+      piece.setCol(col);
+    } 
   }
   
   public Piece getPiece() {
@@ -55,13 +59,13 @@ public class Square extends Rectangle {
     return row; 
   }
 
-  public void setColor(Color c) {
+  public void changeColor(Color c) {
     color = c;
   }
   
-  private void determineColor() {
+  public void determineColor() {
     if ((row % 2 == 0 && col % 2 == 0) || (row % 2 == 1 && col % 2 == 1)) {
-      color = Color.RED;  
+      color = Color.GRAY;  
     } else {
       color = Color.WHITE;
     }    

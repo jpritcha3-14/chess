@@ -23,11 +23,13 @@ public class ChessGame extends MouseAdapter {
   public void mouseClicked(MouseEvent e) {
     if (board.getActivePiece() == null) {
       white.pickUp(board.getPiece(e.getX(), e.getY()));
-      board.setActivePiecePos(e.getX() - Square.WIDTH/2, e.getY() - Square     .WIDTH/2);
+      board.setActivePiecePos(e.getX() - Square.WIDTH/2, e.getY() - Square.WIDTH/2);
+      board.getLegalMoves();
       board.repaint();
     } else {
       board.setPiece(white.place(), e.getX(), e.getY());
-      board.setActivePiecePos(e.getX() - Square.WIDTH/2, e.getY() - Square     .WIDTH/2);
+      board.setActivePiecePos(e.getX() - Square.WIDTH/2, e.getY() - Square.WIDTH/2);
+      board.resetColor();
       board.repaint();
     }
   }
