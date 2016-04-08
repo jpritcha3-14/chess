@@ -115,7 +115,7 @@ public class Board extends JPanel {
     int newCol;
     int newRow;
     for (int i = 0; i < possibleMoves.size(); i++) {
-      for( int j = 0; j < possibleMoves.get(i).length; j++) {
+      for(int j = 0; j < possibleMoves.get(i).length; j++) {
         deltaCol = possibleMoves.get(i)[j].getCol();
         deltaRow = possibleMoves.get(i)[j].getRow();
         newCol = activePiece.getCol() + deltaCol;
