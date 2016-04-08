@@ -5,6 +5,7 @@ import java.awt.event.*;
 
 public class Board extends JPanel { 
   private Square[][] squares; 
+  private Rectangle bound;
   private Piece activePiece;
   private int active_x;
   private int active_y;
@@ -18,9 +19,10 @@ public class Board extends JPanel {
       }
     }
     
+    bound = new Rectangle(75, 75, 600, 600);
     activePiece = null;
-    active_x = 110;
-    active_y = 110;
+    active_x = 0;
+    active_y = 0;
     
     frame = new JFrame("Java Chess");
     this.setFocusable(true);
@@ -44,23 +46,32 @@ public class Board extends JPanel {
     }
   }
 
-  public PieceStatus getPiece(int x, int y) {
+  public Piece checkPiece(int x, int y) {
     for (Square[] c : squares) {
       for (Square sq : c) {
         if (sq.contains(x, y)) { 
-          activePiece = sq.takePiece();
-          return new PieceStatus(activePiece, sq.getCol(), sq.getRow()); 
+          return sq.getPiece();
         }
       }
     }
     return null;
   }
 
-  public void setPiece(PieceStatus p, int x, int y) {
+  public void takePiece(int x, int y) {
+    for (Square[] c : squares) {
+      for (Square sq : c) {
+        if (sq.contains(x, y) && sq.getPiece() != null) { 
+          activePiece = sq.takePiece();
+        }
+      }
+    }
+  }
+
+  public void setPiece(int x, int y) {
     for (Square[] c : squares) {
       for (Square sq : c) {
         if (sq.contains(x, y)) { 
-          sq.setPiece(p.getPiece()); 
+          sq.setPiece(activePiece); 
           activePiece = null;
         }
       }
@@ -76,6 +87,9 @@ public class Board extends JPanel {
     active_y = y;  
   }
 
+  public Rectangle getBound() {
+    return bound;
+  }
   public Piece getActivePiece() {
     return activePiece;
   }
@@ -98,14 +112,24 @@ public class Board extends JPanel {
     ArrayList<Move[]> possibleMoves = activePiece.getLegalMoves();
     int deltaCol;
     int deltaRow;
+    int newCol;
+    int newRow;
     for (int i = 0; i < possibleMoves.size(); i++) {
       for( int j = 0; j < possibleMoves.get(i).length; j++) {
         deltaCol = possibleMoves.get(i)[j].getCol();
         deltaRow = possibleMoves.get(i)[j].getRow();
-        squares[activePiece.getCol() + deltaCol][activePiece.getRow() + deltaRow].changeColor(Color.GREEN); 
+        newCol = activePiece.getCol() + deltaCol;
+        newRow = activePiece.getRow() + deltaRow;
+        if (withinBounds(newCol, newRow)) {
+          squares[newCol][newRow].changeColor(Color.GREEN); 
+        }
       }
     }
   }  
+  
+  private boolean withinBounds(int col, int row) {
+    return (col >= 0) && (col < 8) && (row >= 0) && (row < 8);
+  }
 
   public void drawBoard() {
     frame.setVisible(true);

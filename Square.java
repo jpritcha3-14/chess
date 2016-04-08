@@ -70,6 +70,5 @@ public class Square extends Rectangle {
       color = Color.WHITE;
     }    
   }
-  
 
 }

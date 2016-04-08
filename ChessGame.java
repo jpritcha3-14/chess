@@ -1,4 +1,6 @@
+import java.awt.*;
 import java.awt.event.*; 
+
   
 public class ChessGame extends MouseAdapter {
   Board board;
@@ -21,16 +23,22 @@ public class ChessGame extends MouseAdapter {
   
   @Override 
   public void mouseClicked(MouseEvent e) {
-    if (board.getActivePiece() == null) {
-      white.pickUp(board.getPiece(e.getX(), e.getY()));
-      board.setActivePiecePos(e.getX() - Square.WIDTH/2, e.getY() - Square.WIDTH/2);
-      board.getLegalMoves();
-      board.repaint();
-    } else {
-      board.setPiece(white.place(), e.getX(), e.getY());
-      board.setActivePiecePos(e.getX() - Square.WIDTH/2, e.getY() - Square.WIDTH/2);
-      board.resetColor();
-      board.repaint();
+    if (board.getBound().contains(e.getX(), e.getY())) {
+      System.out.println(board.getBound().toString());
+      System.out.println("made it here!!! X: " + e.getX() + " Y: " + e.getY());
+      if (board.getActivePiece() == null && board.checkPiece(e.getX(), e.getY()) != null) {
+        System.out.println("Took Piece");
+        board.takePiece(e.getX(), e.getY());
+        board.setActivePiecePos(e.getX() - Square.WIDTH/2, e.getY() - Square.WIDTH/2);
+        board.getLegalMoves();
+        board.repaint();
+      } else if (board.getActivePiece() != null) {
+        System.out.println("Placed Piece");
+        board.setPiece(e.getX(), e.getY());
+        board.setActivePiecePos(e.getX() - Square.WIDTH/2, e.getY() - Square.WIDTH/2);
+        board.resetColor();
+        board.repaint();
+      }  
     }
   }
   
