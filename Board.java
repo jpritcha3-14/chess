@@ -108,7 +108,10 @@ public class Board extends JPanel {
     }   
   } 
 
-  public void getLegalMoves() {
+  /*  Uses the active piece's move set and the current state of the board to draw
+   *  the legal moves for the selected piece.
+   */
+  public void drawLegalMoves() {
     ArrayList<Move[]> possibleMoves = activePiece.getLegalMoves();
     int deltaCol;
     int deltaRow;
@@ -121,14 +124,31 @@ public class Board extends JPanel {
         newCol = activePiece.getCol() + deltaCol;
         newRow = activePiece.getRow() + deltaRow;
         if (withinBounds(newCol, newRow)) {
-          squares[newCol][newRow].changeColor(Color.GREEN); 
+          if (noPiece(newCol, newRow)) {
+            squares[newCol][newRow].changeColor(Color.GREEN); 
+          } else {
+            if (squares[newCol][newRow].getPiece().getColor() != activePiece.getColor()) {
+              squares[newCol][newRow].changeColor(Color.RED); 
+            }
+            break;
+          }
         }
       }
     }
   }  
   
+  // helper function for drawLegalMoves
   private boolean withinBounds(int col, int row) {
     return (col >= 0) && (col < 8) && (row >= 0) && (row < 8);
+  }
+
+  // helper function for drawLegalMoves
+  private boolean noPiece(int col, int row) {
+    if (squares[col][row].getPiece() == null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public void drawBoard() {
@@ -136,6 +156,7 @@ public class Board extends JPanel {
     repaint();
   }
 
+  // Resets the square colors of the board
   public void resetColor() {
     for (int col = 0; col < squares.length; col++) {
       for (int row = 0; row < squares[0].length; row++) {
