@@ -1,3 +1,4 @@
+import java.util.*;
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
@@ -11,12 +12,26 @@ public class King extends Piece {
   }
 
 private void addLegalMoves() {
-  Move[] kingMoves = { new Move(1,1), new Move(0,1),
-                       new Move(-1,1), new Move(-1,0),
-                       new Move(-1,-1), new Move(0,-1),
-                       new Move(1,-1), new Move(1,0) };
   
-  getLegalMoves().add(kingMoves);
+  ArrayList<Move[]> kingMoves = getLegalMoves();
+  Move[] SE = { new Move(1,1) };
+  Move[] S  = { new Move(0,1) };
+  Move[] SW = { new Move(-1,1) };
+  Move[] W  = { new Move(-1,0) };
+  Move[] NW = { new Move(-1,-1) };
+  Move[] N  = { new Move(0,-1) };
+  Move[] NE = { new Move(1,-1) };
+  Move[] E  = { new Move(1,0) };
+
+  kingMoves.add(SE);
+  kingMoves.add(S);
+  kingMoves.add(SW);
+  kingMoves.add(W);
+  kingMoves.add(NW);
+  kingMoves.add(N);
+  kingMoves.add(NE);
+  kingMoves.add(E);
+
 }
 
 private static BufferedImage loadSprite(String c) {

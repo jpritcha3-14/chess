@@ -29,14 +29,14 @@ public class ChessGame extends MouseAdapter {
     if (board.getBound().contains(e.getX(), e.getY())) {
       // Click was inside board
 
-      if (board.getActivePiece() == null && board.checkPiece(e.getX(), e.getY()) != null) {
+      if (!board.hasActivePiece() && board.checkPiece(e.getX(), e.getY()) != null) {
         // No piece selected and click was on a square contining a piece
 
         board.takePiece(e.getX(), e.getY());
         board.setActivePiecePos(e.getX() - Square.WIDTH/2, e.getY() - Square.WIDTH/2);
         board.drawLegalMoves();
         board.repaint();
-      } else if (board.getActivePiece() != null) {
+      } else if (board.hasActivePiece() && board.squareIsLegal(e.getX(), e.getY())) {
         // Piece selected when click was made
 
         board.setPiece(e.getX(), e.getY());

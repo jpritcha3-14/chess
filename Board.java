@@ -77,7 +77,7 @@ public class Board extends JPanel {
       }
     }
   }
-  
+
   public void setActivePiece(Piece p) {
     activePiece = p;
   }
@@ -90,8 +90,32 @@ public class Board extends JPanel {
   public Rectangle getBound() {
     return bound;
   }
+
   public Piece getActivePiece() {
     return activePiece;
+  }
+
+  public boolean hasActivePiece() {
+    return (activePiece != null) ? true : false;
+  }
+
+  public boolean squareIsLegal( int x, int y ) {
+    Color squareColor = findSquare(x,y).getColor(); 
+    if (squareColor == Color.GREEN || squareColor == Color.RED) {
+      return true;
+    }
+    return false;
+  }
+
+  public Square findSquare(int x, int y) {
+    for (Square[] c : squares) {
+      for (Square sq : c) {
+        if (sq.contains(x, y)) { 
+          return sq;
+        }
+      }
+    }
+    return null;
   }
 
   private Piece determinePiece(String color, int col, int row) {
