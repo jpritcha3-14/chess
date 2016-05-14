@@ -67,15 +67,19 @@ public class Board extends JPanel {
     }
   }
 
-  public void setPiece(int x, int y) {
+  // returns true if piece was moved to a different location
+  public boolean setPiece(int x, int y) {
+    boolean moved = false;
     for (Square[] c : squares) {
       for (Square sq : c) {
         if (sq.contains(x, y)) { 
+          moved = (sq.getRow() != activePiece.getRow() || sq.getCol() != activePiece.getCol());  
           sq.setPiece(activePiece); 
           activePiece = null;
         }
       }
     }
+    return moved;
   }
 
   public void setActivePiece(Piece p) {
