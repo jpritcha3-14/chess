@@ -147,15 +147,29 @@ public class Board extends JPanel {
    */
   public void drawLegalMoves() {
     ArrayList<Move[]> possibleMoves = activePiece.getLegalMoves(); 
-    if (activePiece.isFirstMove() && !(activePiece.getLegalFirstMoves().isEmpty())) {
-      possibleMoves = activePiece.getLegalFirstMoves();  
-    } else {
-      possibleMoves = activePiece.getLegalMoves();
-    }
+    ArrayList<Move[]> captureMoves;
     int deltaCol;
     int deltaRow;
     int newCol;
     int newRow;
+    if (activePiece.isFirstMove() && !(activePiece.getLegalFirstMoves().isEmpty())) {
+      possibleMoves = activePiece.getLegalFirstMoves();  
+    }
+    if (activePiece instanceof Pawn) {
+      captureMoves = ((Pawn) activePiece).getCaptureMoves();
+      for (int i = 0; i < captureMoves.size(); i++) {
+        for(int j = 0; j < captureMoves.get(i).length; j++) {
+
+          deltaCol = captureMoves.get(i)[j].getCol();
+          deltaRow = captureMoves.get(i)[j].getRow();
+          newCol = activePiece.getCol() + deltaCol;
+          newRow = activePiece.getRow() + deltaRow;
+          if (withinBounds(newCol, newRow) && !noPiece(newCol, newRow) && squares[newCol][newRow].getPiece().getColor() != activePiece.getColor()) {
+            squares[newCol][newRow].changeColor(Color.RED); 
+          }  
+        }
+      } 
+    }
     for (int i = 0; i < possibleMoves.size(); i++) {
       for(int j = 0; j < possibleMoves.get(i).length; j++) {
         deltaCol = possibleMoves.get(i)[j].getCol();
@@ -166,7 +180,7 @@ public class Board extends JPanel {
           if (noPiece(newCol, newRow)) {
             squares[newCol][newRow].changeColor(Color.GREEN); 
           } else {
-            if (squares[newCol][newRow].getPiece().getColor() != activePiece.getColor()) {
+            if (squares[newCol][newRow].getPiece().getColor() != activePiece.getColor() && !(activePiece instanceof Pawn)) {
               squares[newCol][newRow].changeColor(Color.RED); 
             }
             break;
