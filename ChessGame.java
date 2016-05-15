@@ -19,6 +19,7 @@ public class ChessGame extends MouseAdapter {
     white = new Player("white");
     black = new Player("black");
     activePlayer = white;
+    board.setPlayerColor(Color.WHITE);
 
     // setup, draw, and add event listeners to the board
     board.setup();
@@ -54,8 +55,10 @@ public class ChessGame extends MouseAdapter {
   public void switchPlayer(Player p) {
     if (p.getColor().equals("black") ) {
       activePlayer = white;
+      board.setPlayerColor(Color.WHITE);
     } else {
       activePlayer = black;
+      board.setPlayerColor(Color.BLACK);
     }
   } 
   

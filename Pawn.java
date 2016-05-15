@@ -15,9 +15,13 @@ public class Pawn extends Piece {
     if (getColor().equals("black")) {
       Move[] forward = { new Move(0,-1) };
       getLegalMoves().add(forward);
+      Move[] forward2 = { new Move(0,0), new Move(0,-1), new Move(0,-2) };
+      getLegalFirstMoves().add(forward2);
     } else {
       Move[] forward = { new Move(0,1) };
       getLegalMoves().add(forward);
+      Move[] forward2 = { new Move(0,0), new Move(0,1), new Move(0,2) };
+      getLegalFirstMoves().add(forward2);
     } 
   }      
 

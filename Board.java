@@ -9,9 +9,12 @@ public class Board extends JPanel {
   private Piece activePiece;
   private int active_x;
   private int active_y;
+  private Font font;
+  private Color playerColor;
   JFrame frame;
   
   public Board() {
+    font = new Font("SansSerif", Font.BOLD, 24);
     squares = new Square[8][8];
     for (int col = 0; col < squares.length; col++) {
       for (int row = 0; row < squares[0].length; row++) {
@@ -74,6 +77,9 @@ public class Board extends JPanel {
       for (Square sq : c) {
         if (sq.contains(x, y)) { 
           moved = (sq.getRow() != activePiece.getRow() || sq.getCol() != activePiece.getCol());  
+          if (moved) {
+            activePiece.hasMoved();
+          }
           sq.setPiece(activePiece); 
           activePiece = null;
         }
@@ -140,7 +146,12 @@ public class Board extends JPanel {
    *  the legal moves for the selected piece.
    */
   public void drawLegalMoves() {
-    ArrayList<Move[]> possibleMoves = activePiece.getLegalMoves();
+    ArrayList<Move[]> possibleMoves = activePiece.getLegalMoves(); 
+    if (activePiece.isFirstMove() && !(activePiece.getLegalFirstMoves().isEmpty())) {
+      possibleMoves = activePiece.getLegalFirstMoves();  
+    } else {
+      possibleMoves = activePiece.getLegalMoves();
+    }
     int deltaCol;
     int deltaRow;
     int newCol;
@@ -193,10 +204,20 @@ public class Board extends JPanel {
     }
   }
 
+  public void setPlayerColor(Color c) {
+    playerColor = c;
+  }
+
   @Override
   public void paintComponent(Graphics g) {
+    g.setFont(font);
     g.setColor(Color.LIGHT_GRAY);
     g.fillRect(0,0, frame.getWidth(), frame.getHeight());
+    g.setColor(playerColor);
+
+    String player = (playerColor == Color.WHITE) ? "White" : "Black";
+    g.drawString(player + "'s Turn", frame.getWidth()/2 - Square.WIDTH, Square.WIDTH/2);
+
     for (int col = 0; col < squares.length; col++) {
       for (int row = 0; row < squares[0].length; row++) {
         g = squares[col][row].draw(g);
